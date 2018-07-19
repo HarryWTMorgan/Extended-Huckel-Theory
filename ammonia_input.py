@@ -6,7 +6,7 @@ Input file for NH3
 import numpy as np
 
 
-def create_ammonia():
+def create_molecule():
     # Create dictionary of atoms and numerical indices
     
     atoms = {

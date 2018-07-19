@@ -1,12 +1,12 @@
 """
 Extended Huckel Theory
-Input molecular coordinates and ionization energies
+Input molecular coordinates and ionization energies for methane
 """
 
 import numpy as np
 
 
-def create_methane():
+def create_molecule():
     # Create dictionary of atoms and numerical indices
     
     atoms = {

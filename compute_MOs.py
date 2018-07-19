@@ -7,11 +7,11 @@ import numpy as np
 import scipy.linalg
 #import matplotlib.pyplot as plt
 
-from ammonia_input import create_ammonia
+from ethene_input import create_molecule
 from overlap_matrix import construct_overlap_matrix
 from hamiltonian_matrix import compute_hamiltonian_matrix
 
-atoms, positions, basis = create_ammonia()
+atoms, positions, basis = create_molecule()
 
 overlap_matrix = construct_overlap_matrix(atoms, positions, basis)
 
@@ -22,7 +22,8 @@ def ordered_MOs(H,S):
     indices = np.argsort(unsorted_energies)
     energies = unsorted_energies[indices]
     MOs = unsorted_MOs[:,indices]
-    return MOs, energies
+    rounded_MOs = np.around(MOs, decimals=2)
+    return rounded_MOs, energies
     
 
 MOs, energies = ordered_MOs(hamiltonian,overlap_matrix)
