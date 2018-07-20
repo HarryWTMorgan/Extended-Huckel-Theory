@@ -168,26 +168,27 @@ def calc_radial_overlap(atoms, positions,basis,a,b,m):
                                 for qb in range(lb-m-2*jb+1):
                                     # Write each term on a different line and
                                     # multiply them all together
-                                    radial_overlap += \
-                                    get_C_lmj(la,m,ja)\
-                                    * \
-                                    get_C_lmj(lb,m,jb)\
-                                    * \
-                                    ((bang(lb-m-2*jb)) / (bang(lb-m-2*jb-qb)*bang(qb)))\
-                                    * \
-                                    ((bang(la-m-2*ja)) / (bang(la-m-2*ja-qa)*bang(qa)))\
-                                    * \
-                                    ((bang(na-la+2*ja)) / (bang(na-la+2*ja-Pa)*bang(Pa)))\
-                                    * \
-                                    ((bang(nb-lb+2*jb)) / (bang(nb-lb+2*jb-Pb)*bang(Pb)))\
-                                    * \
-                                    ((bang(m))**2) / (bang(m-ka)*bang(ka)*bang(m-kb)*bang(kb))\
-                                    * \
-                                    (-1) ** (ka+kb+m+Pb+qb) \
-                                    * \
-                                    B_func(2*ka+Pa+Pb+qa+qb,p*t) \
-                                    * \
+                                    radial_overlap += (
+                                    get_C_lmj(la,m,ja)
+                                    * 
+                                    get_C_lmj(lb,m,jb)
+                                    * 
+                                    ((bang(lb-m-2*jb)) / (bang(lb-m-2*jb-qb)*bang(qb)))
+                                    * 
+                                    ((bang(la-m-2*ja)) / (bang(la-m-2*ja-qa)*bang(qa)))
+                                    * 
+                                    ((bang(na-la+2*ja)) / (bang(na-la+2*ja-Pa)*bang(Pa)))
+                                    * 
+                                    ((bang(nb-lb+2*jb)) / (bang(nb-lb+2*jb-Pb)*bang(Pb)))
+                                    * 
+                                    ((bang(m))**2) / (bang(m-ka)*bang(ka)*bang(m-kb)*bang(kb))
+                                    * 
+                                    (-1) ** (ka+kb+m+Pb+qb) 
+                                    * 
+                                    B_func(2*ka+Pa+Pb+qa+qb,p*t) 
+                                    * 
                                     A_func(2*kb+na-la+2*ja+nb-lb+2*jb-Pa-Pb+qa+qb,p)
+                                    )
     radial_overlap *= calc_prefactor(atoms, positions,basis,a,b)
     return radial_overlap                                    
 
@@ -237,7 +238,6 @@ def calc_overlap(atoms, positions, basis, a, b):
     
     # Calculate Cartesian components of R_ab
     l,m,n = calc_direction_cosines(atoms, positions, basis, a, b)
-    print(l,m,n)
 
     
     # ss overlap
@@ -289,9 +289,6 @@ def calc_overlap(atoms, positions, basis, a, b):
             # px py
             if mb == -1:
                 overlap = l*m * sigma_overlap - l*m * pi_overlap
-                print(sigma_overlap)
-                print(pi_overlap)
-                print(overlap)
             # px pz
             if mb == 0:
                 overlap = l*n * sigma_overlap - l*n * pi_overlap

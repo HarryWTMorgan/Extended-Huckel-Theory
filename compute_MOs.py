@@ -7,7 +7,7 @@ import numpy as np
 import scipy.linalg
 #import matplotlib.pyplot as plt
 
-from ethene_input import create_molecule
+from dinitrogen_input import create_molecule
 from overlap_matrix import construct_overlap_matrix
 from hamiltonian_matrix import compute_hamiltonian_matrix
 
@@ -28,3 +28,24 @@ def ordered_MOs(H,S):
     
 
 MOs, energies = ordered_MOs(hamiltonian,overlap_matrix)
+
+# Convert energies to eV and round
+
+def energies_in_eV(energy_list):
+    energy_list = np.real(energy_list)
+    for E in energy_list:
+        E *= 27.2114
+    energy_list = np.around(energy_list, decimals=3)
+    return energy_list
+
+eV_energies = energies_in_eV(energies)
+
+"""
+Use Giacomo Marchioro's energy level script to plot MO diagram
+"""
+
+from energydiagram import ED
+diagram = ED()
+for level in eV_energies:
+    diagram.add_level(level,'' ,'last')
+diagram.plot()
