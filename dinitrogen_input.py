@@ -1,6 +1,6 @@
-le"""
-Extended Huckel theory
-Input file for NH3
+"""
+Extended Huckel Theory
+Nitrogen molecule (N2) input
 """
 
 import numpy as np
@@ -11,16 +11,13 @@ def create_molecule():
     
     atoms = {
     # add each atom-index pair to the dictionary
-    "N":0,
-    "H1":1,
-    "H2":2,
-    "H3":3,
+    "N1":0,
+    "N2":1
     }
     
     # Create matrix of positions
     
-    positions = np.array([[0.257,-0.363,0.0], [0.257,0.727,0.0], [0.771,-0.727,0.890], \
-                         [0.771, -0.727, -0.890]])
+    positions = np.array([[0.0,0.0,0.0], [0.0,0.0,1.1]])
     
     # Check for errors in positions/atoms input
     
@@ -32,15 +29,15 @@ def create_molecule():
     # Put atomic orbital basis functions on each atom
     # array elements: basis function number, atom, orbital, n, l, m, zeta, ionization energy
     
-    basis = np.array([["1","N","2s",2,0,0,2.140,-0.9554],\
-                     ["2","N","2pz",2,1,0,1.950,-0.4925],\
-                     ["3","N","2px",2,1,1,1.950,-0.4924],\
-                     ["4","N","2py",2,1,-1,1.950,-0.4924],\
-                     ["5","H1","1s",1,0,0,1.200,-0.5],\
-                     ["6","H2","1s",1,0,0,1.200,-0.5],\
-                     ["7","H3","1s",1,0,0,1.200,-0.5]])
+    basis = np.array([["1","N1","2s",2,0,0,2.140,-0.9554],\
+                     ["2","N1","2pz",2,1,0,1.950,-0.4925],\
+                     ["3","N1","2px",2,1,1,1.950,-0.4924],\
+                     ["4","N1","2py",2,1,-1,1.950,-0.4924],\
+                     ["5","N2","2s",2,0,0,2.140,-0.9554],\
+                     ["6","N2","2pz",2,1,0,1.950,-0.4925],\
+                     ["7","N2","2px",2,1,1,1.950,-0.4924],\
+                     ["8","N2","2py",2,1,-1,1.950,-0.4924]])
 
         
     return atoms,positions,basis
 
- 

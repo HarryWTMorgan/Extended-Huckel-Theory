@@ -223,6 +223,9 @@ This function looks up the orbital quantum numbers in the basis set and uses
 them to select the appropriate formula
 
 Taken from https://en.wikipedia.org/wiki/Tight_binding#Table_of_interatomic_matrix_elements
+
+Here la,lb,ma,mb refer to quantum numbers of orbitals a,b while l,m,n refer to
+the x,y,z projections of the bond vector
 """
     
 def calc_overlap(atoms, positions, basis, a, b):
@@ -234,6 +237,7 @@ def calc_overlap(atoms, positions, basis, a, b):
     
     # Calculate Cartesian components of R_ab
     l,m,n = calc_direction_cosines(atoms, positions, basis, a, b)
+    print(l,m,n)
 
     
     # ss overlap
@@ -276,6 +280,7 @@ def calc_overlap(atoms, positions, basis, a, b):
         sigma_overlap = -calc_radial_overlap(atoms, positions, basis, a, b, 0)
         pi_overlap = calc_radial_overlap(atoms, positions, basis, a, b, 1)
         
+        
         # px on a
         if ma == 1:
             # px px
@@ -283,34 +288,39 @@ def calc_overlap(atoms, positions, basis, a, b):
                 overlap = l**2 * sigma_overlap + (1 - l**2) * pi_overlap
             # px py
             if mb == -1:
-                overlap = l*m * sigma_overlap + (1 - l*m) * pi_overlap
+                overlap = l*m * sigma_overlap - l*m * pi_overlap
+                print(sigma_overlap)
+                print(pi_overlap)
+                print(overlap)
             # px pz
             if mb == 0:
-                overlap = l*n * sigma_overlap + (1 - l*n) * pi_overlap
+                overlap = l*n * sigma_overlap - l*n * pi_overlap
+
         
         # py on a
         elif ma == -1:
             # py px
             if mb == 1:
-                overlap = l*m * sigma_overlap + (1 - l*m) * pi_overlap           
+                overlap = l*m * sigma_overlap - l*m * pi_overlap
             # py py
             if mb == -1:
                 overlap = m**2 * sigma_overlap + (1 - m**2) * pi_overlap
             # py pz
             if mb == 0:
-                overlap = m*n * sigma_overlap + (1 - m*n) * pi_overlap
+                overlap = m*n * sigma_overlap - m*n * pi_overlap
         
         # pz on a
         elif ma == 0:
             # pz px
             if mb == 1:
-                overlap = l*n * sigma_overlap + (1 - l*n) * pi_overlap           
+                overlap = l*n * sigma_overlap - l*n * pi_overlap           
             # pz py
             if mb == -1:
-                overlap = m*n * sigma_overlap + (1 - m*n) * pi_overlap
+                overlap = m*n * sigma_overlap - m*n * pi_overlap
             # pz pz
             if mb == 0:
                 overlap = n**2 * sigma_overlap + (1 - n**2) * pi_overlap
+
                         
     return overlap
       

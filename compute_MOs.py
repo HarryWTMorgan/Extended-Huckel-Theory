@@ -11,6 +11,7 @@ from ethene_input import create_molecule
 from overlap_matrix import construct_overlap_matrix
 from hamiltonian_matrix import compute_hamiltonian_matrix
 
+
 atoms, positions, basis = create_molecule()
 
 overlap_matrix = construct_overlap_matrix(atoms, positions, basis)
@@ -22,9 +23,8 @@ def ordered_MOs(H,S):
     indices = np.argsort(unsorted_energies)
     energies = unsorted_energies[indices]
     MOs = unsorted_MOs[:,indices]
-    rounded_MOs = np.around(MOs, decimals=2)
+    rounded_MOs = np.around(MOs, decimals=1)
     return rounded_MOs, energies
     
 
 MOs, energies = ordered_MOs(hamiltonian,overlap_matrix)
-
