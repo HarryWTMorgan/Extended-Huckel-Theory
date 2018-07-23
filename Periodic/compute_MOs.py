@@ -7,12 +7,14 @@ import numpy as np
 import scipy.linalg
 #import matplotlib.pyplot as plt
 
-from dinitrogen_input import create_molecule
+from hydrogen_chain_input import create_unit_cell, generate_1D_supercell
 from overlap_matrix import construct_overlap_matrix
 from hamiltonian_matrix import compute_hamiltonian_matrix
 
 
-atoms, positions, basis = create_molecule()
+UC_atoms, UC_positions, UC_basis = create_unit_cell()
+
+atoms, positions, basis = generate_1D_supercell(UC_atoms,UC_positions,UC_basis,2)
 
 overlap_matrix = construct_overlap_matrix(atoms, positions, basis)
 

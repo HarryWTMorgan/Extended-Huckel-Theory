@@ -14,7 +14,7 @@ supercells. Consider reworking if you get time, but for now don't fix it until
 it breaks!
 """
 
-def create_H2_unit_cell():
+def create_unit_cell():
     # Create dictionary of atoms and numerical indices
     
     atoms = {
@@ -98,7 +98,7 @@ def generate_1D_supercell(atoms,positions,basis,a):
     for atom in range(len(split_atoms)):
         new_label = str(str(split_atoms[atom][0])+str(split_atoms[atom][1]))
         new_atoms[new_label] = atom
-    print(new_atoms)
+
 
     """
     Generate new list of positions
@@ -109,7 +109,7 @@ def generate_1D_supercell(atoms,positions,basis,a):
     new_positions = positions
     for atom in range(len(positions)):
         new_positions = np.append(new_positions,[[positions[atom,0],positions[atom,1],positions[atom,2]+a]],axis=0)
-    print(new_positions)
+
     
     """
     Generate new basis
@@ -123,7 +123,8 @@ def generate_1D_supercell(atoms,positions,basis,a):
     for entry in range(len(new_basis)):
         new_basis[entry][0] = int(int(entry) + 1)
         new_basis[entry][1] = atom_list[entry]
-    print(new_basis)
+        
+    return new_atoms,new_positions,new_basis
         
     
 
