@@ -41,7 +41,7 @@ def energies_in_eV(energy_list):
 eV_energies = energies_in_eV(energies)
 
 """
-Use Giacomo Marchioro's energy level script to plot MO diagram
+Use Giacomo Marchioro's energy level diagram script to plot MO diagram
 """
 
 from energydiagram import ED
