@@ -12,9 +12,9 @@ Function takes in overlap matrix S, ionisation energies and atomic orbital indic
 
 def wolfsberg_helmholtz(overlaps,basis,i,j):
     K = 1.75
-    S_ij = float(overlaps[i,j])
-    H_ii = float(basis[i,-1])
-    H_jj = float(basis[j,-1])
+    S_ij = complex(overlaps[i,j])
+    H_ii = complex(basis[i,-1])
+    H_jj = complex(basis[j,-1])
     H_ij = K * S_ij * 0.5 * (H_ii + H_jj)
     return H_ij
 
@@ -39,12 +39,12 @@ Ionization energies in basis set
 
 def compute_hamiltonian_matrix(overlaps, basis):
     # Create matrix of zeros of the appropriate size
-    hamiltonian = np.zeros((len(overlaps),len(overlaps)))
+    hamiltonian = np.zeros((len(overlaps),len(overlaps)),dtype=complex)
     for i in range(len(overlaps)):
         for j in range(i+1): # Compute lower triangle
             # Diagonal elements are on-site ionization energies
             if i == j :
-                hamiltonian[i,j] = basis[i,-1]
+                hamiltonian[i,j] = float(basis[i,-1])
             # Off-diagonal elements given by Wolfsberg-Helmholtz formula
             else:
                 hamiltonian[i,j] = wolfsberg_helmholtz(overlaps, basis, i, j)

@@ -342,7 +342,7 @@ def construct_overlap_matrix(atoms, positions,basis):
             # Enforce orthogonality of atomic orbitals on the same atom
             elif basis[i,1] == basis[j,1]:                
                 overlap_matrix[i,j] = 0.0
-            # Orbitals on different atoms overlap according to formula TBA!
+            # Orbitals on different atoms overlap according to formula from Stewart
             else:
                 overlap_matrix[i,j] = calc_overlap(atoms, positions, basis, i, j)
             # Symmetrize the matrix
@@ -351,3 +351,33 @@ def construct_overlap_matrix(atoms, positions,basis):
 
 #overlaps = construct_overlap_matrix(positions,basis)
 
+"""
+Now comes the periodic part. Instead of working with the full overlap
+matrix, which contains the overlap between every pair of atoms, we will
+separate it into S0 (overlaps within the unit cell) and S1 (overlaps with
+the nearest neighbour cell). We will then multiply S1 by a range of phase
+factors, to sample k space, and add it to S0 to generate a set of overlap
+matrices. A hamiltonian matrix and energy levels will be calculated for each
+one.
+"""
+
+
+def slice_overlap_matrix(atoms,positions,basis):
+    full_overlap_matrix = construct_overlap_matrix(atoms,positions,basis)
+    S0 = full_overlap_matrix[:int(len(basis)/2),:int(len(basis)/2)]
+    S1 = full_overlap_matrix[:int(len(basis)/2),int(len(basis)/2):]
+    return S0,S1
+        
+def k_overlap_matrix(atoms,positions,basis,a,k):
+    # Get the useful parts of the overlap matrix
+    S0,S1 = slice_overlap_matrix(atoms,positions,basis)
+    # Turn S0 into a complex array (even though it's real)
+    new_S = np.zeros((len(S0),len(S0)),dtype=complex)
+    new_S += S0
+    
+    phase_factor = np.exp(1j*k*a)
+    
+    new_S = new_S + (S1*phase_factor)
+    
+    return(new_S)
+    
