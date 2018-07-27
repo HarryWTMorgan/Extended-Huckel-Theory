@@ -51,4 +51,27 @@ def compute_hamiltonian_matrix(overlaps, basis):
     # Reflect in main diagonal to get symmetric matrix
             hamiltonian[j,i] = hamiltonian[i,j]
     return hamiltonian
- 
+
+
+def slice_hamiltonian_matrix(overlaps,basis):
+    full_hamiltonian_matrix = compute_hamiltonian_matrix(overlaps,basis)
+    H0 = full_hamiltonian_matrix[:int(len(basis)/2),:int(len(basis)/2)]
+    H1 = full_hamiltonian_matrix[:int(len(basis)/2),int(len(basis)/2):]
+    H2 = full_hamiltonian_matrix[int(len(basis)/2):,:int(len(basis)/2)]
+    return H0,H1,H2
+
+        
+def k_hamiltonian_matrix(overlaps,basis,a,k):
+    # Get the useful parts of the hamiltonian matrix
+    H0,H1,H2 = slice_hamiltonian_matrix(overlaps,basis)
+    # Turn H0 into a complex array (even though it's real)
+    new_H = np.zeros((len(H0),len(H0)),dtype=complex)
+    new_H += H0
+    
+    pos_phase_factor = np.exp(1j*k*a)
+    neg_phase_factor = np.exp(-1j*k*a)
+#    print("H0",new_H,'\n',"H1",H1,'\n',"H2",H2)
+    new_H = new_H + H1 * pos_phase_factor + H2 * neg_phase_factor
+#    print("new H",new_H,'\n')
+    return(new_H)
+     

@@ -342,7 +342,10 @@ def construct_overlap_matrix(atoms, positions,basis):
             # Enforce orthogonality of atomic orbitals on the same atom
             elif basis[i,1] == basis[j,1]:                
                 overlap_matrix[i,j] = 0.0
-            # Orbitals on different atoms overlap according to formula from Stewart
+            # Nearest neighbour interactions only
+#            elif abs(i-j) > 1:
+#                overlap_matrix[i,j] = 0.0
+# Orbitals on different atoms overlap according to formula from Stewart
             else:
                 overlap_matrix[i,j] = calc_overlap(atoms, positions, basis, i, j)
             # Symmetrize the matrix
@@ -366,18 +369,21 @@ def slice_overlap_matrix(atoms,positions,basis):
     full_overlap_matrix = construct_overlap_matrix(atoms,positions,basis)
     S0 = full_overlap_matrix[:int(len(basis)/2),:int(len(basis)/2)]
     S1 = full_overlap_matrix[:int(len(basis)/2),int(len(basis)/2):]
-    return S0,S1
+    S2 = full_overlap_matrix[int(len(basis)/2):,:int(len(basis)/2)]
+    return S0,S1,S2
+
         
 def k_overlap_matrix(atoms,positions,basis,a,k):
     # Get the useful parts of the overlap matrix
-    S0,S1 = slice_overlap_matrix(atoms,positions,basis)
+    S0,S1,S2 = slice_overlap_matrix(atoms,positions,basis)
     # Turn S0 into a complex array (even though it's real)
     new_S = np.zeros((len(S0),len(S0)),dtype=complex)
     new_S += S0
     
-    phase_factor = np.exp(1j*k*a)
-    
-    new_S = new_S + (S1*phase_factor)
-    
+    pos_phase_factor = np.exp(1j*k*a)
+    neg_phase_factor = np.exp(-1j*k*a)
+#    print("S0",new_S,'\n',"S1",S1,'\n',"S2",S2)
+    new_S = new_S + S1 * pos_phase_factor + S2 * neg_phase_factor
+#    print('new S',new_S)
     return(new_S)
     

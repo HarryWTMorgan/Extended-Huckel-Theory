@@ -1,7 +1,6 @@
 """
 Extended Huckel Theory
-Input file for a 1D hydrogen chain with 6 atoms in the unit cell
-for debugging purposes
+Input file for a 1D hydrogen chain with one atom in the unit cell
 """
 
 import numpy as np
@@ -21,17 +20,11 @@ def create_unit_cell():
     atoms = {
     # add each atom-index pair to the dictionary
     "H1":0,
-    "H2":1,
-    "H3":2,
-    "H4":3,
-    "H5":4,
-    "H6":5
     }
     
     # Create matrix of positions
     
-    positions = np.array([[0.0,0.0,0.0], [0.0,0.0,1.5], [0.0,0.0,3.0],\
-                          [0.0,0.0,4.5], [0.0,0.0,6.0], [0.0,0.0,7.5]])
+    positions = np.array([[0.0,0.0,0.0]])
     
     # Check for errors in positions/atoms input
     
@@ -43,12 +36,7 @@ def create_unit_cell():
     # Put atomic orbital basis functions on each atom
     # array elements: basis function number, atom, orbital, n, l, m, zeta, ionization energy
     
-    basis = np.array([["1","H1","1s",1,0,0,1.800,-0.5],\
-                      ["2","H2","1s",1,0,0,1.800,-0.5],\
-                      ["3","H3","1s",1,0,0,1.800,-0.5],\
-                      ["4","H4","1s",1,0,0,1.800,-0.5],\
-                      ["5","H5","1s",1,0,0,1.800,-0.5],\
-                      ["6","H6","1s",1,0,0,1.800,-0.5]])
+    basis = np.array([["1","H1","1s",1,0,0,1.800,-0.5]])
 
         
     return atoms,positions,basis
