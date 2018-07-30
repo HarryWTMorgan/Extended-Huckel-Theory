@@ -25,7 +25,7 @@ def create_unit_cell():
     
     # Create matrix of positions
     
-    positions = np.array([[0.0,0.0,0.0], [0.0,0.0,1.5]])
+    positions = np.array([[0.0,0.0,0.0], [0.0,0.0,2.0]])
     
     # Check for errors in positions/atoms input
     
