@@ -7,20 +7,20 @@ import numpy as np
 import scipy.linalg
 import matplotlib.pyplot as plt
 
-from H2_chain_input import create_unit_cell, generate_1D_supercell
+from C_atom_chain import create_unit_cell, generate_1D_supercell
 from periodic_overlap_matrix import k_overlap_matrix,construct_overlap_matrix
 from periodic_hamiltonian_matrix import k_hamiltonian_matrix
 
 UC_atoms, UC_positions, UC_basis = create_unit_cell()
 
-a = 3.2
+a = 2
 
 atoms, positions, basis = generate_1D_supercell(UC_atoms,UC_positions,UC_basis,a)
 
 
 def band_structure(atoms,positions,basis,a,n):
     # Generate n uniformly distributed values in the range -pi/a to pi/a
-    k_points = np.linspace((np.pi * -2/a),(np.pi * 2/a),n)
+    k_points = np.linspace((np.pi * -0/a),(np.pi * 1/a),n)
     band_energies = []
     MO_coeffs = []
     # Get overlap matrix for supercell 
@@ -61,7 +61,36 @@ def energies_in_eV(energy_list):
 
 k_points,band,MOs = band_structure(atoms,positions,basis,a,200)
 
-plt.plot(k_points,band)
+def plot_C_bandstructure(k_points, energies):
+    s_band = []
+    pz_band = []
+    px_band = []
+    py_band = []
+    for energy in energies:
+        s_band.append(energy[0])
+        pz_band.append(energy[1])    
+        px_band.append(energy[2])
+        py_band.append(energy[3])
+       
+    
+    plt.plot(k_points,s_band,color='black',label='s')
+    plt.plot(k_points,pz_band,color='black',label='pz')
+    plt.plot(k_points,px_band,color='black',label='px')
+    plt.plot(k_points,py_band,color='black',label='py')
+    
+    plt.xlim(0.0,1.7)
+    
+    plt.text(1.6,-0.48,'s')
+    plt.text(1.58,-0.41,'$p_z$')
+    plt.text(1.58,-0.36,'$p_{x,y}$')
+    
+    plt.title("1D carbon chain band structure")
+    plt.xlabel("k")
+    plt.ylabel("E / eV")
+    
+    plt.show()
+
+plot_C_bandstructure(k_points,band)
 """
 Use Giacomo Marchioro's energy level diagram script to plot MO diagram
 
